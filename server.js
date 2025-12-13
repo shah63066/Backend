@@ -12,8 +12,11 @@ const Booking = require("./models/Booking");
 const app = express();
 connectDB();
 
+
 app.use(cors({
-  origin: "https://h2osalon.vercel.app/" // ya specific frontend URL: "https://your-frontend.vercel.app"
+  origin: "https://h2osalon.vercel.app",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  credentials: true
 }));
 
 
