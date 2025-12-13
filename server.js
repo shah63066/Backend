@@ -27,9 +27,7 @@ app.get("/", (req, res) => {
   res.send("🚀 Backend is running successfully");
 });
 
-/* ===============================
-   ADMIN DASHBOARD APIs
-================================ */
+/* ADMIN DASHBOARD APIs */
 
 // 🔹 Get all bookings
 app.get("/api/admin/bookings", async (req, res) => {
@@ -66,17 +64,13 @@ app.get("/api/admin/earnings", async (req, res) => {
 
 
 
-/* ===============================
-   Razorpay Setup
-================================ */
+/* Razorpay Setup */
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
-/* ===============================
-   Nodemailer (TLS ERROR FIXED)
-================================ */
+/* Nodemailer (TLS ERROR FIXED) */
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -84,7 +78,7 @@ const transporter = nodemailer.createTransport({
     pass: process.env.EMAIL_PASS, // 16-char app password (NO spaces)
   },
   tls: {
-    rejectUnauthorized: false, // 🔥 FIX for self-signed certificate error
+    rejectUnauthorized: false, //  FIX for self-signed certificate error
   },
 });
 
@@ -116,9 +110,7 @@ const sendReceipt = async (booking) => {
   }
 };
 
-/* ===============================
-   BOOK APPOINTMENT
-================================ */
+/* BOOK APPOINTMENT*/
 app.post("/api/book", async (req, res) => {
   try {
     const { date, time, barber } = req.body;
@@ -145,9 +137,7 @@ app.post("/api/book", async (req, res) => {
   }
 });
 
-/* ===============================
-   CREATE RAZORPAY ORDER
-================================ */
+/* CREATE RAZORPAY ORDER */
 app.post("/api/create-order", async (req, res) => {
   try {
     const { amount, bookingId } = req.body;
@@ -169,9 +159,7 @@ app.post("/api/create-order", async (req, res) => {
   }
 });
 
-/* ===============================
-   VERIFY PAYMENT + SEND EMAIL
-================================ */
+/* VERIFY PAYMENT + SEND EMAIL */
 app.post("/api/verify-payment", async (req, res) => {
   try {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
@@ -205,9 +193,7 @@ app.post("/api/verify-payment", async (req, res) => {
   }
 });
 
-/* ===============================
-   SERVER START
-================================ */
+/* SERVER START*/
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
