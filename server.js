@@ -78,15 +78,24 @@ const razorpay = new Razorpay({
    Nodemailer (TLS ERROR FIXED)
 ================================ */
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true, // true for 465
   auth: {
     user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS, // 16-char app password (NO spaces)
-  },
-  tls: {
-    rejectUnauthorized: false, // 🔥 FIX for self-signed certificate error
+    pass: process.env.EMAIL_PASS,
   },
 });
+
+transporter.verify((error, success) => {
+  if (error) {
+    console.error("❌ Mail server error:", error);
+  } else {
+    console.log("✅ Mail server ready");
+  }
+});
+
+
 
 const sendReceipt = async (booking) => {
   try {
