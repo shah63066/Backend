@@ -62,6 +62,72 @@ app.get("/api/admin/earnings", async (req, res) => {
 
 
 
+/*
+ SALON CHATBOT API */
+app.post("/api/chat", async (req, res) => {
+  try {
+    const { message } = req.body;
+    if (!message) {
+      return res.json({ reply: "Please type a message." });
+    }
+
+    const msg = message.toLowerCase().trim();
+
+    // ✅ Define responses for all keywords
+    const replies = {
+      services: `💇 Our Services include:
+• Haircut
+• Beard Trim
+• Hair Spa
+• Facial
+• Hair Color`,
+      prices: `💇 Our Services & Prices:
+• Haircut – ₹200
+• Beard Trim – ₹100
+• Hair Spa – ₹800
+• Facial – ₹1200
+• Hair Color – ₹1500
+For detailed pricing, visit: https://h2osalon.vercel.app/`,
+      timing: "⏰ We are open daily from 9:00 AM to 9:00 PM.",
+      booking:
+        "📅 You can book an appointment from our website using the Book Appointment button.",
+      location:
+        "📍 H₂O The Men's Salon\nDevalay Complex, Beltar Mirzapur, UP, India.",
+      payment:
+        "💳 We accept online payments via Razorpay (UPI, Card, NetBanking).",
+      barber:
+        "✂️ Our professional barbers are available all days. You can select your barber while booking.",
+    };
+
+    // Check which keyword the user typed
+    let reply =
+      "Sorry, please ask about services, prices, timing, booking or location.";
+
+    if (msg.includes("service") || msg.includes("services")) {
+      reply = replies.services;
+    } else if (msg.includes("price") || msg.includes("prices") || msg.includes("rate")) {
+      reply = replies.prices;
+    } else if (msg.includes("time") || msg.includes("timing") || msg.includes("open")) {
+      reply = replies.timing;
+    } else if (msg.includes("book") || msg.includes("appointment")) {
+      reply = replies.booking;
+    } else if (msg.includes("location") || msg.includes("address")) {
+      reply = replies.location;
+    } else if (msg.includes("payment") || msg.includes("pay")) {
+      reply = replies.payment;
+    } else if (msg.includes("barber") || msg.includes("staff")) {
+      reply = replies.barber;
+    }
+
+    res.json({ reply });
+  } catch (error) {
+    console.error("Chatbot Error:", error);
+    res.status(500).json({ reply: "Server error. Please try again later." });
+  }
+});
+
+
+
 
 
 /* Razorpay Setup */
